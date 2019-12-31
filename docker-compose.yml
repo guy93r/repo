@@ -1,0 +1,38 @@
+version: '3'
+services:
+  webapp:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on: 
+      - "db"
+    networks:
+      - gutendex
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=gutendex
+      - POSTGRES_PASSWORD=a-long-string-of-random-characters
+      - POSTGRES_DB=gutendex
+      - POSTGRES_PORT=5432
+
+    volumes:
+      - ./pgdata:/var/lib/postgresql/pgdata
+    networks:
+      - gutendex
+
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   depends_on: 
+  #     - "webapp"
+  #   networks:
+  #     - gutendex
+
+
+networks:
+  gutendex:
+    driver: bridge

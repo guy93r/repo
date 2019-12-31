@@ -1,0 +1,11 @@
+FROM postgres
+WORKDIR /project
+COPY . .
+WORKDIR new-test-devOps/project/
+RUN apt-get update
+RUN apt-get -y install python3.6
+RUN chmod +x manage.py
+RUN ./manage.py migrate
+RUN ./manage.py updatecatalog
+RUN ./manage.py collectstatic
+RUN ./manage.py runserver
